@@ -1,0 +1,30 @@
+import mysql.connector
+
+conn = mysql.connector.connect(
+    host='mysql-5153051-formulario.h.aivencloud.com',
+    port=12714,
+    user='avnadmin',
+    password='TU_PASSWORD_AQUI',
+    database='defaultdb',
+    ssl_disabled=False
+)
+
+cursor = conn.cursor()
+
+# Eliminar tabla vieja si existe
+cursor.execute('DROP TABLE IF EXISTS contactos')
+
+# Crear tabla con los nombres correctos
+cursor.execute('''
+    CREATE TABLE contactos (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(150) NOT NULL,
+        message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+''')
+
+conn.commit()
+print('Tabla creada correctamente')
+conn.close()
